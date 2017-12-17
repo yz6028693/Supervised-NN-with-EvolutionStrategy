@@ -11,4 +11,6 @@ The demo looks like this:
 
 <a><img src="Gifs&Images/SupervisedES1.gif"></a>
 
+<a><img src="Gifs&Images/SupervisedES2.gif"></a>
+
 More details of this demo and another version with multiprocessing will be provided soon.
