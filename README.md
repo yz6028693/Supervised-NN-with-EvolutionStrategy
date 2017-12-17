@@ -10,3 +10,5 @@ Python packages needed: 1. Numpy; 2. Matplotlib
 The demo looks like this:
 
 <a><img src="Gifs&Images/SupervisedES.gif"></a>
+
+More details of demo and another version with multiprocessing with be provided soon.
