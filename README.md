@@ -11,4 +11,4 @@ The demo looks like this:
 
 <a><img src="Gifs&Images/SupervisedESNew.gif"></a>
 
-More details of demo and another version with multiprocessing with be provided soon.
+More details of this demo and another version with multiprocessing will be provided soon.
