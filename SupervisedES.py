@@ -1,8 +1,8 @@
 '''
 In this demo, I will classify the same Archimedean Spiral pattern based on two categories of points we inputted
-in the Neural Network. 7 values of each point are inputted in the NN: x, y, x^2, y^2, xy, sin(x) and sin(y).
-This time, rather than use TensorFlow and Stochastic gradient descent (SGD), I will create this NN by myself and use
-Evolution Strategy to train this neural network.
+in the Neural Network. 7 value of each point are inputted in the NN: x, y, x^2, y^2, xy, sin(x) and sin(y).
+This time, rather than use TensorFlow and Stochastic gradient descent (SGD), I will build this NN with only numpy and 
+use Evolution Strategy to train this neural network.
 
 I haven't used multiprocessing in this version, the training speed and result can already versus those in my TensorFlow
 and SGD demo.
@@ -92,13 +92,13 @@ class SupervisedES(object):
         return Score
 
 
-    def CorrectRadio(self, HiddenArray1, HiddenArray2, DatawithLabel): # DatawithLabel is a list N*7, N*1
+    def CorrectRatio(self, HiddenArray1, HiddenArray2, DatawithLabel): # DatawithLabel is a list N*7, N*1
         OutLayer = self.NNoutput(HiddenArray1, HiddenArray2, DatawithLabel[0])
         Classification = np.argmax(OutLayer, 1) + 1
         label  = np.argmax(DatawithLabel[1], 1) + 1
         Correct = len(np.where(Classification * label == 1)[0]) + len(np.where(Classification * label == 4)[0])
-        CorrectRadio = Correct/len(DatawithLabel[0])
-        return CorrectRadio
+        CorrectRatio = Correct/len(DatawithLabel[0])
+        return CorrectRatio
 
 
     def Classification(self, HiddenArray1, HiddenArray2, NormalizedRasterArray):
@@ -223,7 +223,7 @@ class SupervisedES(object):
         NormalizedRasterArray = self.PlotingRasterArray()
         TrainingInput, TrainingLabel, TestingInput, TestingLabel = \
             self.SeparateTrainingTesting(ReGroupForTrainingArray1 + ReGroupForTrainingArray2, TrainingRatio)
-        CorrectRadio = 0.0
+        CorrectRatio = 0.0
         InitWArray1, InitBArray1, InitWArray2, InitBArray2 = self.InitWB((7,6,2), 0.01) # 7 inputs, 6 hidden notes (1 hidden layer), 2 outputs
         HiddenArray1 = [InitWArray1, InitBArray1]
         HiddenArray2 = [InitWArray2, InitBArray2]
@@ -231,17 +231,17 @@ class SupervisedES(object):
         TrainingDatawithLabel = [np.array(TrainingInput), np.array(TrainingLabel)]
         TestingDatawithLabel = [np.array(TestingInput), np.array(TestingLabel)]
         gen = 0
-        while CorrectRadio < StopPoint:
+        while CorrectRatio < StopPoint:
             gen += 1
             BatchwithLabel = self.BatchCreater(BatchSize, TrainingInput, TrainingLabel)
 
             # Choose different learningRate and SearchArea (Standard deviation) for better performance
 
-            if CorrectRadio < 0.9:
+            if CorrectRatio < 0.9:
                 learningRate = 0.25
                 SearchArea = 0.3
                 SearchWorkers = 150
-            elif CorrectRadio < 0.95:
+            elif CorrectRatio < 0.95:
                 learningRate = 0.1
                 SearchArea = 0.2
                 SearchWorkers = 100
@@ -252,13 +252,13 @@ class SupervisedES(object):
 
             HiddenArray1, HiddenArray2 = self.WorkFlow(HiddenArray1, HiddenArray2, BatchwithLabel,
                                                         TrainingDatawithLabel, learningRate, SearchArea, SearchWorkers)
-            CorrectRadio =  self.CorrectRadio(HiddenArray1, HiddenArray2, DatasetwithLabel)
+            CorrectRatio =  self.CorrectRatio(HiddenArray1, HiddenArray2, DatasetwithLabel)
             if gen % 100 == 0:
-                TrainingCorrectRadio = self.CorrectRadio(HiddenArray1, HiddenArray2, TrainingDatawithLabel)
-                TestingCorrectRadio = self.CorrectRadio(HiddenArray1, HiddenArray2, TestingDatawithLabel)
-                print('CorrectRadio: ', CorrectRadio)
-                print('TrainingCorrectRadio: ', TrainingCorrectRadio)
-                print('TestingCorrectRadio: ', TestingCorrectRadio)
+                TrainingCorrectRatio = self.CorrectRatio(HiddenArray1, HiddenArray2, TrainingDatawithLabel)
+                TestingCorrectRatio = self.CorrectRatio(HiddenArray1, HiddenArray2, TestingDatawithLabel)
+                print('CorrectRatio: ', CorrectRatio)
+                print('TrainingCorrectRatio: ', TrainingCorrectRatio)
+                print('TestingCorrectRatio: ', TestingCorrectRatio)
 
         print('Generations: ', gen)
         print('Final NN Weights1: ', HiddenArray1[0])
