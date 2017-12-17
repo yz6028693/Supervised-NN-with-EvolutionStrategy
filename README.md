@@ -9,6 +9,6 @@ Python packages needed: 1. Numpy; 2. Matplotlib
 
 The demo looks like this:
 
-<a><img src="Gifs&Images/SupervisedES1.mp4"></a>
+<a><img src="Gifs&Images/SupervisedES1.gif"></a>
 
 More details of this demo and another version with multiprocessing will be provided soon.
