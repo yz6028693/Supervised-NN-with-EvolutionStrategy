@@ -5,3 +5,7 @@ Evolution Strategy to train this neural network.
 
 I haven't used multiprocessing in this version, the training speed and result can already versus those in my TensorFlow
 and SGD demo.
+
+The demo looks like this:
+
+<a><img src="Gifs&Images/SupervisedES.gif"></a>
